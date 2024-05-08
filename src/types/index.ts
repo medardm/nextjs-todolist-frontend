@@ -28,3 +28,19 @@ export type TodoItemProps = {
   toggleTodoDone: ToggleTodo; // define the correct type instead of any
   handleRemoveTodo: RemoveTodo; // define the correct type instead of any
 }
+
+interface UserData {
+  id: number;
+  username: string;
+  email: string;
+  role: string;
+}
+
+export interface AuthUser {
+  token?: string;
+  refresh_token: string;
+  expires_at: string;
+  remember: string;
+  user: UserData;
+  message: string;
+}
