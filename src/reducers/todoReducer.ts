@@ -11,6 +11,17 @@ type Action = | { type: 'FETCH_TODO_REQUEST' }
   | { type: 'CLEAR_FINISHED' }
   | { type: 'TOGGLE_DONE', id: number };
 
+export const todoInitialState: State = {
+  todos: [
+    {id: Date.now() + 1, task: 'Research about Meddicc', done: false},
+    {id: Date.now() + 2, task: 'Improve React/Nextjs skills', done: false},
+    {id: Date.now() + 3, task: 'Build Python and Django skills', done: false},
+    {id: Date.now() + 4, task: 'Get Hired', done: false},
+  ],
+  error: null,
+  loading:false
+}
+
 export function todoReducer(state: State, action: Action): State {
   switch (action.type) {
     case 'FETCH_TODO_REQUEST':
