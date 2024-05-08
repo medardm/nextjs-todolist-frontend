@@ -1,18 +1,21 @@
-import {Todo, TodoItemProps, TodoListProps} from "@/types";
+import {Todo, TodoItemProps} from "@/types";
 import {IoAdd, IoClose, IoTrash} from "react-icons/io5";
 import React from "react";
+import {useTodolist} from "@/hooks/useTodolist";
 
-export const TodoList = (
-  {
-    todos,
-    newTodo,
-    setNewTodo,
-    handleAddTodo,
+export const TodoList = () => {
+
+  const {
+    newTodoInput,
+    handleSetNewTodoInput,
     completedTodo,
+    todos,
+    handleAddTodo,
     handleRemoveTodo,
     handleToggleDone,
     handleClearDone
-  }: TodoListProps) => {
+  } = useTodolist();
+
   return (
     <div className="bg-white rounded shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg">
       <div className="mb-4">
@@ -20,8 +23,8 @@ export const TodoList = (
         <div className="flex mt-4">
           <input className="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker"
                  placeholder="Add Todo"
-                 onChange={(e) => setNewTodo(e.target.value)}
-                 value={newTodo}
+                 onChange={(e) => handleSetNewTodoInput(e.target.value)}
+                 value={newTodoInput}
           />
           <button
             onClick={() => handleAddTodo()}
