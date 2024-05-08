@@ -11,18 +11,6 @@ type Handler = (id: number) => void;
 type ToggleTodo = (id: number) => void;
 type RemoveTodo = (id: number) => void;
 
-// This represents the props for the TodoList function
-export type TodoListProps = {
-  todos: Todo[];  // change this from TodoItemProps[] to Todo[]
-  newTodo: string;
-  setNewTodo: (value: string) => void;
-  handleAddTodo: () => void;
-  completedTodo: Todo[];
-  handleRemoveTodo: Handler;
-  handleToggleDone: Handler;
-  handleClearDone: () => void;
-};
-
 export type TodoItemProps = {
   todo: Todo; // change this from separate properties to a single todo of type Todo
   toggleTodoDone: ToggleTodo; // define the correct type instead of any
@@ -44,3 +32,25 @@ export interface AuthUser {
   user: UserData;
   message: string;
 }
+
+export type TodoItem = {
+  id: number;
+  task: string;
+  done: boolean;
+};
+
+export type TodoState = {
+  newTodoInput: string | undefined;
+  todos: TodoItem[];
+  loading: boolean;
+  error: string | null;
+  // Methods
+  fetchTodoRequest: () => void;
+  fetchTodoSuccess: (payload: TodoItem[]) => void;
+  fetchTodoFailure: (error: string) => void;
+  setNewTodoInput: (task: string) => void;
+  addTodo: (task: string) => void;
+  deleteTodo: (id: number) => void;
+  clearFinished: () => void;
+  toggleDone: (id: number) => void;
+};

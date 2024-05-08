@@ -1,47 +1,58 @@
-import {useEffect, useReducer, useState} from 'react';
-import {todoInitialState, todoReducer} from "@/reducers/todoReducer";
+import { useEffect } from 'react';
+import useTodoStore from "@/stores/useTodoStore";
 
 export function useTodolist() {
-  const [todoState, dispatchTodo] = useReducer(todoReducer, todoInitialState);
-  const [newTodo, setNewTodo] = useState('');
+  const {
+    todos,
+    newTodoInput,
+    setNewTodoInput,
+    addTodo,
+    deleteTodo,
+    toggleDone,
+    clearFinished
+  } = useTodoStore();
 
   useEffect(() => {
+    console.log(todos)
     // const payload: any[] = []
-    // dispatchTodo({type: 'FETCH_TODO_SUCCESS', payload: payload});
-
+    // Not sure where payload data comes from. Maybe you want to fetch it here?
+    // fetchTodoSuccess(payload);
   }, []);
 
+  const handleSetNewTodoInput = (task: string) => {
+    setNewTodoInput(task);
+  }
+
   const handleAddTodo = () => {
-    if (newTodo) {
-      dispatchTodo({type: 'ADD_TODO', task: newTodo});
+    console.log(newTodoInput + '- add todo')
+    if (newTodoInput) {
+      addTodo(newTodoInput);
     }
-    setNewTodo('');
+    setNewTodoInput('');
   };
 
   const handleRemoveTodo = (id: number) => {
-    dispatchTodo({type: 'DELETE_TODO', id: id});
-    setNewTodo('');
+    deleteTodo(id);
+    setNewTodoInput('');
   };
 
   const handleToggleDone = (id: number) => {
-    dispatchTodo({type: 'TOGGLE_DONE', id});
+    toggleDone(id);
   };
 
   const handleClearDone = () => {
-    dispatchTodo({type: 'CLEAR_FINISHED'});
+    clearFinished();
   };
 
-
-  const remainingTodo = todoState.todos.filter(todo => !todo.done);
-  const completedTodo = todoState.todos.filter(todo => todo.done);
+  const remainingTodo = todos.filter((todo: { done: boolean; }) => !todo.done);
+  const completedTodo = todos.filter((todo: { done: boolean; }) => todo.done);
 
   return {
     completedTodo,
     remainingTodo,
-    todoState,
-    newTodo,
-    dispatchTodo,
-    setNewTodo,
+    todos, // This is now the todoState
+    newTodoInput,
+    handleSetNewTodoInput,
     handleAddTodo,
     handleRemoveTodo,
     handleToggleDone,
