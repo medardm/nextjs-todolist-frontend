@@ -1,52 +1,55 @@
-import {useReducer, useState} from 'react';
-import {authInitialState, authReducer} from "@/reducers/authReducer";
-import {fetchData} from "@/utils/api";
+import {useEffect, useState} from 'react';
+import { fetchData } from "@/utils/api";
+import useAuthStore from "@/stores/useAuthStore";
 import {AuthUser} from "@/types";
 
 export const useAuth = () => {
-  const [authUserState, dispatchAuth] = useReducer(authReducer, authInitialState);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    loginStart,
+    loginSuccess,
+    loginFailure,
+    user
+  } = useAuthStore();
+
+  const [username, setUsername] = useState("medardmtest");
+  const [password, setPassword] = useState("@password@");
 
   const login = async () => {
-    dispatchAuth({
-      type: 'LOGIN_START',
-      payload: undefined
-    });
+    loginStart();
 
     try {
-      const userData = await fetchData<AuthUser>('api/login', {
+      const userData = await fetchData<AuthUser>('login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json', // Set the content type to 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({username, password}),
         credentials: 'include'
       });
 
-      delete userData.token
-      localStorage.setItem('userData', JSON.stringify(userData))
-
-      dispatchAuth({ type: 'LOGIN_SUCCESS', payload: userData });
+      delete userData.token;
+      localStorage.setItem('userData', JSON.stringify(userData));
+      loginSuccess(userData);
     } catch (err: any) {
-      dispatchAuth({ type: 'LOGIN_FAILURE', payload: err.message });
+      loginFailure(err.message);
     }
   };
 
-  const logout = async() => {
+  const logout = async () => {
     try {
-      await fetchData('api/logout', {
+      await fetchData('logout', {
         method: 'POST',
       });
 
-      dispatchAuth({ type: 'LOGIN_SUCCESS', payload: null });
+      localStorage.removeItem('userData');
+      loginSuccess(null);
     } catch (err: any) {
       console.error(err.message)
     }
   };
 
   return {
-    authUserState,
+    user,
     username,
     password,
     setUsername,
@@ -55,3 +58,42 @@ export const useAuth = () => {
     logout
   };
 };
+
+
+export const useAuthUser = () => {
+  const { user, loginSuccess } = useAuthStore();
+  const { logout } = useAuth();
+
+  const validateToken = async () => {
+    return fetchData<{message: string, token_is_valid: boolean}>('token/validate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+  };
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem('userData');
+
+    if (loggedInUser) {
+      const authUser = JSON.parse(loggedInUser);
+      validateToken()
+        .then(data => {
+          if (data.token_is_valid) {
+            loginSuccess(authUser);
+            console.log('logged in user fetched');
+          } else {
+            logout().then();
+          }
+        })
+        .catch(err => console.error(err));
+    }
+  }, []);
+
+  return {
+    user,
+    logout
+  }
+}

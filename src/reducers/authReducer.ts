@@ -1,10 +1,4 @@
-import {AuthUser} from "@/types";
-
-export interface AuthState {
-  loading: boolean;
-  user: AuthUser | null;
-  error: string | null;
-}
+import {AuthState} from "@/types";
 
 export const authInitialState: AuthState = {
   loading: false,

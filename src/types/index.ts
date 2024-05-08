@@ -30,7 +30,6 @@ export interface AuthUser {
   expires_at: string;
   remember: string;
   user: UserData;
-  message: string;
 }
 
 export type TodoItem = {
@@ -53,4 +52,14 @@ export type TodoState = {
   deleteTodo: (id: number) => void;
   clearFinished: () => void;
   toggleDone: (id: number) => void;
+};
+
+export type AuthState = {
+  loading: boolean;
+  user: AuthUser | null;
+  error: string | null;
+  // Methods
+  loginStart: () => void;
+  loginSuccess: (user: AuthUser | null) => void;
+  loginFailure: (error: string) => void;
 };

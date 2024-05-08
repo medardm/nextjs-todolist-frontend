@@ -52,7 +52,7 @@ export const RegisterModal = () => {
             {/*// Modal body*/}
             <form action="#">
               <div className="grid gap-4 mb-4">
-                <InputField id="username" label="Username" placeholder="username" required state={username}
+                <InputField id="reg-username" label="Username" placeholder="username" required state={username}
                             setState={setUsername}/>
                 <InputField id="email" label="Email" placeholder="test@gmail.com" required state={email}
                             setState={setEmail}/>
