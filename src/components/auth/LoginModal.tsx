@@ -1,11 +1,17 @@
 import {useReducer, useState} from "react";
 import {InputField} from "@/components/form/InputField";
+import {useAuth} from "@/hooks/useAuth";
 
 export const LoginModal = () => {
   const [modalOpen, setModalOpen] = useReducer(modalOpen => ! modalOpen,false);
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    login,
+    username,
+    password,
+    setUsername,
+    setPassword
+  } = useAuth();
 
   return (
     <>
@@ -56,7 +62,8 @@ export const LoginModal = () => {
                             state={password} setState={setPassword}/>
               </div>
               <div className={`flex justify-end`}>
-                <button type="submit"
+                <button type="button"
+                        onClick={() => login()}
                         className="text-white inline-flex items-center bg-gray-900 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-10 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-gray-900">
                   Login
                 </button>
