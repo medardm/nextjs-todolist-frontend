@@ -1,6 +1,6 @@
 'use client'
 import React from "react";
-import {useTodolist} from "@/hooks/useTodolist";
+import {useTodo} from "@/hooks/useTodo";
 import {TodoList} from "@/components/todolist/TodoList";
 
 export default function Home() {

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import useTodoStore from "@/stores/useTodoStore";
 
-export function useTodolist() {
+export function useTodo() {
   const {
     todos,
     newTodoInput,

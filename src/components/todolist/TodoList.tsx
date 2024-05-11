@@ -1,7 +1,7 @@
 import {Todo, TodoItemProps} from "@/types";
 import {IoAdd, IoClose, IoTrash} from "react-icons/io5";
 import React from "react";
-import {useTodolist} from "@/hooks/useTodolist";
+import {useTodo} from "@/hooks/useTodo";
 
 export const TodoList = () => {
 
@@ -14,7 +14,7 @@ export const TodoList = () => {
     handleRemoveTodo,
     handleToggleDone,
     handleClearDone
-  } = useTodolist();
+  } = useTodo();
 
   return (
     <div className="bg-white rounded shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg">
