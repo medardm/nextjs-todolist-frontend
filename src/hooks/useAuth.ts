@@ -9,11 +9,12 @@ export const useAuth = () => {
     loginStart,
     loginSuccess,
     loginFailure,
+    usernameInput,
+    passwordInput,
+    setUsername,
+    setPassword,
     user
   } = useAuthStore();
-
-  const [username, setUsername] = useState(config.TEST_USER);
-  const [password, setPassword] = useState(config.TEST_USER_PASSWORD);
 
   const login = async () => {
     loginStart();
@@ -21,7 +22,10 @@ export const useAuth = () => {
     try {
       const userData = await fetchData<AuthUser>('login', {
         method: 'POST',
-        body: JSON.stringify({username, password}),
+        body: JSON.stringify({
+          username: usernameInput,
+          password: passwordInput
+        }),
         credentials: 'include'
       });
 
@@ -48,8 +52,8 @@ export const useAuth = () => {
 
   return {
     user,
-    username,
-    password,
+    username: usernameInput,
+    password: passwordInput,
     setUsername,
     setPassword,
     login,
