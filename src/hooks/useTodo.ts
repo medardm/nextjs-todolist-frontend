@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import useTodoStore from "@/stores/useTodoStore";
+import {TodoItemInput} from "@/types";
 
-export function useTodo() {
+export function useTodo(todolist: number) {
   const {
     todos,
     newTodoInput,
@@ -12,6 +13,8 @@ export function useTodo() {
     clearFinished
   } = useTodoStore();
 
+  const todoList = todos.filter((todo) => todo.todolist === todolist);
+
   useEffect(() => {
     console.log(todos)
     // const payload: any[] = []
@@ -19,8 +22,17 @@ export function useTodo() {
     // fetchTodoSuccess(payload);
   }, []);
 
-  const handleSetNewTodoInput = (task: string) => {
-    setNewTodoInput(task);
+  const getNewTodoInput = () => {
+    if (newTodoInput && newTodoInput.todolist === todolist) {
+      return newTodoInput.title;
+    }
+    return ''; // or return a default value, your call
+  };
+
+  const handleSetNewTodoInput = (todoItemInput: TodoItemInput) => {
+    if (todoItemInput.todolist === todolist) {
+      setNewTodoInput(todoItemInput);
+    }
   }
 
   const handleAddTodo = () => {
@@ -28,12 +40,12 @@ export function useTodo() {
     if (newTodoInput) {
       addTodo(newTodoInput);
     }
-    setNewTodoInput('');
+    setNewTodoInput(undefined);
   };
 
   const handleRemoveTodo = (id: number) => {
     deleteTodo(id);
-    setNewTodoInput('');
+    setNewTodoInput(undefined);
   };
 
   const handleToggleDone = (id: number) => {
@@ -44,14 +56,14 @@ export function useTodo() {
     clearFinished();
   };
 
-  const remainingTodo = todos.filter((todo: { done: boolean; }) => !todo.done);
-  const completedTodo = todos.filter((todo: { done: boolean; }) => todo.done);
+  const remainingTodo = todos.filter((todo: { completed: boolean; }) => !todo.completed);
+  const completedTodo = todos.filter((todo: { completed: boolean; }) => todo.completed);
 
   return {
     completedTodo,
     remainingTodo,
-    todos, // This is now the todoState
-    newTodoInput,
+    todos: todoList, // This is now the todoState
+    getNewTodoInput,
     handleSetNewTodoInput,
     handleAddTodo,
     handleRemoveTodo,
