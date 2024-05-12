@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import { fetchData } from "@/utils/api";
 import useAuthStore from "@/stores/useAuthStore";
 import {AuthUser} from "@/types";
+import {config} from "@/config";
 
 export const useAuth = () => {
   const {
@@ -11,8 +12,8 @@ export const useAuth = () => {
     user
   } = useAuthStore();
 
-  const [username, setUsername] = useState("medardmtest");
-  const [password, setPassword] = useState("@password@");
+  const [username, setUsername] = useState(config.TEST_USER);
+  const [password, setPassword] = useState(config.TEST_USER_PASSWORD);
 
   const login = async () => {
     loginStart();
@@ -20,9 +21,6 @@ export const useAuth = () => {
     try {
       const userData = await fetchData<AuthUser>('login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({username, password}),
         credentials: 'include'
       });
@@ -67,16 +65,12 @@ export const useAuthUser = () => {
   const validateToken = async () => {
     return fetchData<{message: string, token_is_valid: boolean}>('token/validate', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
     });
   };
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem('userData');
-
+    console.log(loggedInUser);
     if (loggedInUser) {
       const authUser = JSON.parse(loggedInUser);
       validateToken()
@@ -85,10 +79,10 @@ export const useAuthUser = () => {
             loginSuccess(authUser);
             console.log('logged in user fetched');
           } else {
-            logout().then();
+
           }
         })
-        .catch(err => console.error(err));
+        .catch(err => logout().then());
     }
   }, []);
 

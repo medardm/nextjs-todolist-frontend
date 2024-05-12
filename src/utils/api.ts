@@ -13,10 +13,15 @@ interface FetchOptions {
 
 export const fetchData = async<T> (
   endpoint: string,
-  options: FetchOptions = {
-    method: 'GET', headers: { 'Content-Type': 'application/json' }, credentials: 'include'
-  }
+  options: FetchOptions
 ): Promise<T> => {
+
+  options = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    ...options
+  }
 
   const response = await fetch(getEP(endpoint), options);
 
