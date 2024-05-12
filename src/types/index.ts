@@ -67,9 +67,9 @@ type ToggleTodo = (id: number) => void;
 type RemoveTodo = (id: number) => void;
 
 export type TodoItemProps = {
-  todoItem: TodoItem; // change this from separate properties to a single todo of type Todo
-  toggleTodoDone: ToggleTodo; // define the correct type instead of any
-  handleRemoveTodo: RemoveTodo; // define the correct type instead of any
+  todoItem: TodoItem;
+  toggleTodoDone: ToggleTodo;
+  handleRemoveTodo: RemoveTodo;
 }
 
 export type TodoItemState = {

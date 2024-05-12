@@ -18,7 +18,6 @@ export function useTodoItem(todolist: number) {
   useEffect(() => {
     console.log(todoItems)
     // const payload: any[] = []
-    // Not sure where payload data comes from. Maybe you want to fetch it here?
     // fetchTodoSuccess(payload);
   }, []);
 

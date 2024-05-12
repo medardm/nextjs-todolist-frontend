@@ -22,7 +22,6 @@ export function useTodoList() {
     //   credentials: 'include',
     // }).then(data);
     // const payload: any[] = []
-    // Not sure where payload data comes from. Maybe you want to fetch it here?
     // fetchTodoListSuccess(payload);
   }, []);
 
