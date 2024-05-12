@@ -31,7 +31,6 @@ export function useTodoList() {
   }
 
   const handleAddTodoList = () => {
-    console.log(newTodoListInput + '- add todo')
     if (newTodoListInput) {
       addTodoList(newTodoListInput);
     }

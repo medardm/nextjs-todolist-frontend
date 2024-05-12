@@ -67,23 +67,23 @@ type ToggleTodo = (id: number) => void;
 type RemoveTodo = (id: number) => void;
 
 export type TodoItemProps = {
-  todo: TodoItem; // change this from separate properties to a single todo of type Todo
+  todoItem: TodoItem; // change this from separate properties to a single todo of type Todo
   toggleTodoDone: ToggleTodo; // define the correct type instead of any
   handleRemoveTodo: RemoveTodo; // define the correct type instead of any
 }
 
-export type TodoState = {
-  newTodoInput: TodoItemInput | undefined;
-  todos: TodoItem[];
+export type TodoItemState = {
+  newTodoItemInput: TodoItemInput | undefined;
+  todoItems: TodoItem[];
   loading: boolean;
   error: string | null;
   // Methods
-  fetchTodoRequest: () => void;
-  fetchTodoSuccess: (payload: TodoItem[]) => void;
-  fetchTodoFailure: (error: string) => void;
-  setNewTodoInput: (newTodo: TodoItemInput | undefined) => void;
-  addTodo: (newTodo: TodoItemInput) => void;
-  deleteTodo: (id: number) => void;
+  fetchTodoItemRequest: () => void;
+  fetchTodoItemSuccess: (payload: TodoItem[]) => void;
+  fetchTodoItemFailure: (error: string) => void;
+  setNewTodoItemInput: (newTodo: TodoItemInput | undefined) => void;
+  addTodoItem: (newTodo: TodoItemInput) => void;
+  deleteTodoItem: (id: number) => void;
   clearFinished: () => void;
   toggleDone: (id: number) => void;
 };

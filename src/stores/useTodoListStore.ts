@@ -15,7 +15,21 @@ const initialTodoLists: TodoList[] = [
     "created": "2024-05-07T20:49:20.551751Z",
     "updated": "2024-05-07T21:02:48.530152Z",
     "user": 2
-  }
+  },
+  {
+    "id": 3,
+    "title": "To Learasdn",
+    "created": "2024-05-07T20:49:20.551751Z",
+    "updated": "2024-05-07T21:02:48.530152Z",
+    "user": 2
+  },
+  {
+    "id": 4,
+    "title": "To Learasdn",
+    "created": "2024-05-07T20:49:20.551751Z",
+    "updated": "2024-05-07T21:02:48.530152Z",
+    "user": 2
+  },
 ]
 
 const useTodoListStore = create<TodoListState>((set, get) => ({
