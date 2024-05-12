@@ -1,13 +1,23 @@
 'use client'
 import React from "react";
-import {useTodo} from "@/hooks/useTodo";
 import {TodoList} from "@/components/todolist/TodoList";
+import {useTodoList} from "@/hooks/useTodoList";
 
 export default function Home() {
+
+  const { todoLists } = useTodoList()
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <div className="min-h-100 w-full flex items-center justify-center bg-teal-lightest">
-        <TodoList />
+        {
+          todoLists.map(
+            todoList =>
+              <TodoList
+                key={todoList.id}
+                id={todoList.id}
+                title={todoList.title} />
+          )
+        }
       </div>
     </main>
   );
