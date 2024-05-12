@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import {TodoList, TodoListState} from "@/types";
+import {TodoList, TodoListApiResponse, TodoListState} from "@/types";
+import {fetchData} from "@/utils/api";
 
 const initialTodoLists: TodoList[] = [
   {
@@ -38,11 +39,27 @@ const useTodoListStore = create<TodoListState>((set, get) => ({
   error: null,
   loading: false,
 
-  fetchTodoListRequest: () => set({ loading: true, error: null }),
+  initGuestTodoList: () => set({ todoLists: initialTodoLists }),
 
-  fetchTodoListSuccess: (payload: any[]) => set({ todoLists: payload, loading: false, error: null, newTodoListInput: undefined }),
+  fetchTodoLists: async () => {
+    try {
+      set(state => ({...state, loading: true}));
 
-  fetchTodoListFailure: (error: string) => set({ loading: false, error }),
+      const response = await fetchData<TodoListApiResponse>('todolists', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      set(state => ({...state, todoLists: response.data, loading: false}));
+
+    } catch (error: any) {
+      console.error("Failed to fetch todo lists", error);
+      set(state => ({...state, error: error.message, loading: false}));
+    }
+  },
 
   setNewTodoListInput: (title: string) => set({ newTodoListInput: title }),
 

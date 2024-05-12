@@ -1,29 +1,28 @@
 import { useEffect } from 'react';
 import useTodoListStore from "@/stores/useTodoListStore";
-import {fetchData} from "@/utils/api";
+import {useAuth} from "@/hooks/useAuth";
 
 export function useTodoList() {
   const {
     todoLists,
     newTodoListInput,
+    initGuestTodoList,
+    fetchTodoLists,
     setNewTodoListInput,
     addTodoList,
     deleteTodoList,
     updateTodoList
   } = useTodoListStore();
 
+  const { user } = useAuth()
+
   useEffect(() => {
-    console.log(todoLists)
-    // fetchData<>('todolists', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   credentials: 'include',
-    // }).then(data);
-    // const payload: any[] = []
-    // fetchTodoListSuccess(payload);
-  }, []);
+    if (user?.user) {
+      fetchTodoLists()
+    } else {
+      initGuestTodoList()
+    }
+  }, [fetchTodoLists, initGuestTodoList, user?.user]);
 
   const handleSetNewTodoListInput = (title: string) => {
     setNewTodoListInput(title);

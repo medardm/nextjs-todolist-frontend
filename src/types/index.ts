@@ -1,8 +1,3 @@
-export type ApiResponse = {
-  success: string;
-  message: string;
-};
-
 interface UserData {
   id: number;
   username: string;
@@ -20,10 +15,16 @@ export interface AuthUser {
 
 export type AuthState = {
   loading: boolean;
+  usernameInput: string,
+  passwordInput: string,
+  confirmPasswordInput: string,
   user: AuthUser | null;
   error: string | null;
   // Methods
   loginStart: () => void;
+  setUsername: (username: string) => void;
+  setPassword: (password: string) => void;
+  setConfirmPassword: (confirmPassword: string) => void;
   loginSuccess: (user: AuthUser | null) => void;
   loginFailure: (error: string) => void;
 };
@@ -41,9 +42,8 @@ export type TodoListState = {
   todoLists: TodoList[];
   error: string | null;
   loading: boolean;
-  fetchTodoListRequest: () => void;
-  fetchTodoListSuccess: (payload: TodoList[]) => void;
-  fetchTodoListFailure: (error: string) => void;
+  initGuestTodoList: () => void;
+  fetchTodoLists: () => void;
   setNewTodoListInput: (title: string) => void;
   addTodoList: (title: string) => void;
   deleteTodoList: (id: number) => void;
@@ -87,3 +87,12 @@ export type TodoItemState = {
   clearFinished: () => void;
   toggleDone: (id: number) => void;
 };
+
+export type ApiResponse = {
+  success: string;
+  message: string;
+};
+
+export type TodoListApiResponse = ApiResponse & {
+  data: TodoList[]
+}
