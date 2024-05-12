@@ -1,21 +1,7 @@
-export type Todo = {
-  id: number;
-  task: string;
-  done: boolean;
+export type ApiResponse = {
+  success: string;
+  message: string;
 };
-
-// This type represents an event handler function
-type Handler = (id: number) => void;
-
-// Let's define functions for toggling and removing todos
-type ToggleTodo = (id: number) => void;
-type RemoveTodo = (id: number) => void;
-
-export type TodoItemProps = {
-  todo: Todo; // change this from separate properties to a single todo of type Todo
-  toggleTodoDone: ToggleTodo; // define the correct type instead of any
-  handleRemoveTodo: RemoveTodo; // define the correct type instead of any
-}
 
 interface UserData {
   id: number;
@@ -32,28 +18,6 @@ export interface AuthUser {
   user: UserData;
 }
 
-export type TodoItem = {
-  id: number;
-  task: string;
-  done: boolean;
-};
-
-export type TodoState = {
-  newTodoInput: string | undefined;
-  todos: TodoItem[];
-  loading: boolean;
-  error: string | null;
-  // Methods
-  fetchTodoRequest: () => void;
-  fetchTodoSuccess: (payload: TodoItem[]) => void;
-  fetchTodoFailure: (error: string) => void;
-  setNewTodoInput: (task: string) => void;
-  addTodo: (task: string) => void;
-  deleteTodo: (id: number) => void;
-  clearFinished: () => void;
-  toggleDone: (id: number) => void;
-};
-
 export type AuthState = {
   loading: boolean;
   user: AuthUser | null;
@@ -62,4 +26,64 @@ export type AuthState = {
   loginStart: () => void;
   loginSuccess: (user: AuthUser | null) => void;
   loginFailure: (error: string) => void;
+};
+
+export type TodoList = {
+  id: number;
+  title: string;
+  created: string;
+  updated: string;
+  user?: number;
+};
+
+export type TodoListState = {
+  newTodoListInput: string;
+  todoLists: TodoList[];
+  error: string | null;
+  loading: boolean;
+  fetchTodoListRequest: () => void;
+  fetchTodoListSuccess: (payload: TodoList[]) => void;
+  fetchTodoListFailure: (error: string) => void;
+  setNewTodoListInput: (title: string) => void;
+  addTodoList: (title: string) => void;
+  deleteTodoList: (id: number) => void;
+  updateTodoList: (id: number, title: string) => void;
+};
+
+export type TodoItemInput = {
+  title: string;
+  todolist: number;
+};
+
+export type TodoItem = TodoItemInput & {
+  id: number;
+  description?: string;
+  completed: boolean;
+  created?: string;
+  updated?: string;
+};
+
+type ToggleTodo = (id: number) => void;
+type RemoveTodo = (id: number) => void;
+
+export type TodoItemProps = {
+  todo: TodoItem; // change this from separate properties to a single todo of type Todo
+  toggleTodoDone: ToggleTodo; // define the correct type instead of any
+  handleRemoveTodo: RemoveTodo; // define the correct type instead of any
+}
+
+export type TodoState = {
+  newTodoInput: TodoItemInput | undefined;
+  todos: TodoItem[];
+  loading: boolean;
+  error: string | null;
+  // Methods
+  fetchTodoRequest: () => void;
+  fetchTodoSuccess: (payload: TodoItem[]) => void;
+  fetchTodoFailure: (error: string) => void;
+  setNewTodoInput: (newTodo: TodoItemInput | undefined) => void;
+  addTodo: (newTodo: TodoItemInput) => void;
+  deleteTodo: (id: number) => void;
+  clearFinished: () => void;
+  toggleDone: (id: number) => void;
 };

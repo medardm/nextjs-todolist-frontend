@@ -1,16 +1,16 @@
 import { create } from 'zustand';
 
-import {TodoState} from "@/types";
+import {TodoItem, TodoItemInput, TodoState} from "@/types";
 
-const initialTodos = [
-  {id: Date.now() + 1, task: 'Research about Meddicc', done: false},
-  {id: Date.now() + 2, task: 'Improve React/Nextjs skills', done: false},
-  {id: Date.now() + 3, task: 'Build Python and Django skills', done: false},
-  {id: Date.now() + 4, task: 'Get Hired', done: false},
+const initialTodos: TodoItem[] = [
+  {id: Date.now() + 1, title: 'Research about Meddicc', completed: false, todolist: 1},
+  {id: Date.now() + 2, title: 'Improve React/Nextjs skills', completed: false, todolist: 1},
+  {id: Date.now() + 3, title: 'Build Python and Django skills', completed: false, todolist: 1},
+  {id: Date.now() + 4, title: 'Get Hired', completed: false, todolist: 1},
 ]
 
 const useTodoStore = create<TodoState>((set, get) => ({
-  newTodoInput: '',
+  newTodoInput: undefined,
   todos: initialTodos,
   error: null,
   loading: false,
@@ -21,10 +21,14 @@ const useTodoStore = create<TodoState>((set, get) => ({
 
   fetchTodoFailure: (error: string) => set({ loading: false, error }),
 
-  setNewTodoInput: (task: string) => set({ newTodoInput: task }),
+  setNewTodoInput: (todoInput: TodoItemInput | undefined) => set({ newTodoInput: todoInput }),
 
-  addTodo: (task: string) => {
-    const newTodo = {id: Date.now(), task, done: false};
+  addTodo: (todoInput: TodoItemInput) => {
+    const newTodo = {
+      id: Date.now(),
+      ...todoInput,
+      completed: false,
+    };
     set(state => ({ todos: [...state.todos, newTodo] }));
   },
 
@@ -33,12 +37,12 @@ const useTodoStore = create<TodoState>((set, get) => ({
   })),
 
   clearFinished: () => set(state => ({
-    todos: state.todos.filter(todo => !todo.done)
+    todos: state.todos.filter(todo => !todo.completed)
   })),
 
   toggleDone: (id: number) => set(state => ({
     todos: state.todos.map(todo =>
-      todo.id === id ? {...todo, done: !todo.done} : todo
+      todo.id === id ? {...todo, completed: !todo.completed} : todo
     )
   })),
 }));
