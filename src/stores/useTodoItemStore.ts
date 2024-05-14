@@ -15,6 +15,9 @@ const useTodoItemStore = create<TodoItemState>((set, get) => ({
   todoItems: initialTodoItems,
   error: null,
   loading: false,
+  online: false,
+
+  setOnline: (online: boolean) => set({ online }),
 
   fetchTodoItemRequest: () => set({ loading: true, error: null }),
 
@@ -51,12 +54,16 @@ const useTodoItemStore = create<TodoItemState>((set, get) => ({
   },
 
   addTodoItem: (todoInput: TodoItemInput) => {
-    set({ loading: true, error: null })
     const newTodo = {
-      id: Date.now(),
       ...todoInput,
       completed: false,
     };
+    if (!get().online) {
+      set(state => ({ todoItems: [...state.todoItems, {...newTodo, id: Date.now() }] }));
+      return
+    }
+
+    set({ loading: true, error: null })
 
     fetchData<ApiResponse & { data: TodoItem }>(`todolists/${todoInput.todolist}/todoitems/`, {
       method: 'POST',
@@ -67,17 +74,38 @@ const useTodoItemStore = create<TodoItemState>((set, get) => ({
       credentials: 'include',
     }).then(response => {
       console.info('added todo item')
+      set(state => ({ todoItems: [...state.todoItems, {...newTodo, id: response.data.id}] }));
       set({ loading: false, error: null })
     }).catch((e: any) => {
       set({ loading: false, error: e.message })
     });
 
-    set(state => ({ todoItems: [...state.todoItems, newTodo] }));
   },
 
-  deleteTodoItem: (id: number) => set(state => ({
-    todoItems: state.todoItems.filter(todoItem => todoItem.id !== id)
-  })),
+  deleteTodoItem: (todoItem: TodoItem) => {
+    if (!get().online) {
+      set(state => ({
+        todoItems: state.todoItems.filter((item) => item.id !== todoItem.id),
+      }));
+      return
+    }
+
+    fetchData(
+      `todolists/${todoItem.todolist}/todoitems/${todoItem.id}/`,
+      {
+        method: 'DELETE',
+      }
+    )
+      .then((response) => {
+        set(state => ({
+          todoItems: state.todoItems.filter((item) => item.id !== todoItem.id),
+        }));
+        console.info('Deleted todo item');
+      })
+      .catch((error: any) => {
+        console.error('Failed to delete todo item', error.message);
+      });
+  },
 
   clearFinished: () => set(state => ({
     todoItems: state.todoItems.filter(todoItem => !todoItem.completed)

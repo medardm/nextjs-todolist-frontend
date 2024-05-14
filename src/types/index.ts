@@ -64,7 +64,7 @@ export type TodoItem = TodoItemInput & {
 };
 
 type ToggleTodo = (id: number) => void;
-type RemoveTodo = (id: number) => void;
+type RemoveTodo = (todoItem: TodoItem) => void;
 
 export type TodoItemProps = {
   todoItem: TodoItem;
@@ -74,10 +74,12 @@ export type TodoItemProps = {
 
 export type TodoItemState = {
   newTodoItemInput: TodoItemInput | undefined;
-  todoItems: TodoItem[];
+  todoItems: TodoItem[] | [];
   loading: boolean;
+  online: boolean;
   error: string | null;
   // Methods
+  setOnline: (online: boolean) => void;
   initGuestTodoItems: () => void;
   fetchTodoItems: (todolist: number) => void;
   fetchTodoItemRequest: () => void;
@@ -85,7 +87,7 @@ export type TodoItemState = {
   fetchTodoItemFailure: (error: string) => void;
   setNewTodoItemInput: (newTodo: TodoItemInput | undefined) => void;
   addTodoItem: (newTodo: TodoItemInput) => void;
-  deleteTodoItem: (id: number) => void;
+  deleteTodoItem: (todo: TodoItem) => void;
   clearFinished: () => void;
   toggleDone: (id: number) => void;
 };

@@ -14,7 +14,7 @@ interface FetchOptions {
 export const fetchData = async<T> (
   endpoint: string,
   options: FetchOptions
-): Promise<T> => {
+  ): Promise<T> => {
 
   options = {
     method: 'GET',
@@ -24,6 +24,14 @@ export const fetchData = async<T> (
   }
 
   const response = await fetch(getEP(endpoint), options);
+
+  if (response.status === 204) {
+    return <T>{};
+  }
+
+  if (response.status === 403) {
+    window.location.reload()
+  }
 
   if (!response.ok) {
     throw new Error(response.statusText);

@@ -86,7 +86,7 @@ const TodoItem = ({todoItem, toggleTodoDone, handleRemoveTodo}: TodoItemProps) =
         <label htmlFor={"todoItem-" + todoItem.id} className="ms-2 text-md font-medium pointer-events-none">{todoItem.title}</label>
       </div>
       <IoClose size="20px" color="gray" className='cursor-pointer' onClick={e => {
-        handleRemoveTodo(todoItem.id)
+        handleRemoveTodo(todoItem)
       }}/>
     </div>
   );

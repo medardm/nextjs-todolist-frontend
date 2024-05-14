@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import useTodoItemStore from "@/stores/useTodoItemStore";
-import {TodoItemInput} from "@/types";
+import {TodoItem, TodoItemInput} from "@/types";
 import {useAuth} from "@/hooks/useAuth";
 
 export function useTodoItem(todolist: number) {
   const {
     todoItems: todoItemInStore,
     newTodoItemInput,
+    setOnline,
     setNewTodoItemInput,
     addTodoItem,
     deleteTodoItem,
@@ -21,7 +22,9 @@ export function useTodoItem(todolist: number) {
   useEffect(() => {
     if (user?.user) {
       fetchTodoItems(todolist)
+      setOnline(true)
     } else {
+      setOnline(false)
       initGuestTodoItems()
     }
   }, [fetchTodoItems, initGuestTodoItems, user?.user]);
@@ -55,8 +58,8 @@ export function useTodoItem(todolist: number) {
     setNewTodoItemInput(undefined);
   };
 
-  const handleRemoveTodo = (id: number) => {
-    deleteTodoItem(id);
+  const handleRemoveTodo = (todoItem: TodoItem) => {
+    deleteTodoItem(todoItem);
     setNewTodoItemInput(undefined);
   };
 
