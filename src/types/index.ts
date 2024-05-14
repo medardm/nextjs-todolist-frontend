@@ -78,6 +78,8 @@ export type TodoItemState = {
   loading: boolean;
   error: string | null;
   // Methods
+  initGuestTodoItems: () => void;
+  fetchTodoItems: (todolist: number) => void;
   fetchTodoItemRequest: () => void;
   fetchTodoItemSuccess: (payload: TodoItem[]) => void;
   fetchTodoItemFailure: (error: string) => void;
@@ -95,4 +97,8 @@ export type ApiResponse = {
 
 export type TodoListApiResponse = ApiResponse & {
   data: TodoList[]
+}
+
+export type TodoItemsApiResponse = ApiResponse & {
+  data: TodoItem[]
 }

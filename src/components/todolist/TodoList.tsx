@@ -3,7 +3,7 @@ import {IoAdd, IoClose, IoTrash} from "react-icons/io5";
 import React from "react";
 import {useTodoItem} from "@/hooks/useTodoItem";
 
-export const TodoList = ({ id, title } : {id: number, title: string}) => {
+export const TodoList = ({ id, title} : {id: number, title: string}) => {
   const {
     getNewTodoInput,
     handleSetNewTodoInput,

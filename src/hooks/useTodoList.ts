@@ -4,6 +4,8 @@ import {useAuth} from "@/hooks/useAuth";
 
 export function useTodoList() {
   const {
+    loading,
+    error,
     todoLists,
     newTodoListInput,
     initGuestTodoList,
@@ -46,6 +48,8 @@ export function useTodoList() {
 
 
   return {
+    loading,
+    error,
     todoLists,
     newTodoListInput,
     handleSetNewTodoListInput,

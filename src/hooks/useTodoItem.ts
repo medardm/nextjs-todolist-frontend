@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import useTodoItemStore from "@/stores/useTodoItemStore";
 import {TodoItemInput} from "@/types";
+import {useAuth} from "@/hooks/useAuth";
 
 export function useTodoItem(todolist: number) {
   const {
@@ -10,8 +11,20 @@ export function useTodoItem(todolist: number) {
     addTodoItem,
     deleteTodoItem,
     toggleDone,
-    clearFinished
+    clearFinished,
+    fetchTodoItems,
+    initGuestTodoItems
   } = useTodoItemStore();
+
+  const { user } = useAuth()
+
+  useEffect(() => {
+    if (user?.user) {
+      fetchTodoItems(todolist)
+    } else {
+      initGuestTodoItems()
+    }
+  }, [fetchTodoItems, initGuestTodoItems, user?.user]);
 
   const todoItems = todoItemInStore.filter((todoItem) => todoItem.todolist === todolist);
 
@@ -61,7 +74,8 @@ export function useTodoItem(todolist: number) {
   return {
     completedTodo,
     remainingTodo,
-    todoItems, // This is now the todoState
+    fetchTodoItems,
+    todoItems,
     getNewTodoInput,
     handleSetNewTodoInput,
     handleAddTodo,
