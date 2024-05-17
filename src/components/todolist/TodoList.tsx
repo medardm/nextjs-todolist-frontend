@@ -16,56 +16,58 @@ export const TodoList = ({ id, title, handleRemoveTodoList } : {id: number, titl
   } = useTodoItem(id);
 
   return (
-    <div className="bg-white rounded shadow p-6 m-4">
-      <div className="mb-4">
-        <header className="text-grey-darkest flex justify-between">
-          <h2>{ title } <span>({completedTodo.length}/{todoItems.length})</span></h2>
-          <IoTrash size="20px" className="cursor-pointer" color="gray" onClick={() => handleRemoveTodoList(id)}/>
-        </header>
-        <div className="flex mt-4">
-          <input className="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker"
-                 placeholder="Add Todo"
-                 onChange={(e) => handleSetNewTodoInput({
-                   title: e.target.value,
-                   todolist: id
-                 })}
-                 value={getNewTodoInput()}
-                 onKeyUp={(event) => {
-                   if(event.key === 'Enter') handleAddTodo();
-                 }}
-          />
+    <div>
+      <div className="bg-white rounded shadow p-6 m-4">
+        <div className="mb-4">
+          <header className="text-grey-darkest flex justify-between">
+            <h2>{title} <span>({completedTodo.length}/{todoItems.length})</span></h2>
+            <IoTrash size="20px" className="cursor-pointer" color="gray" onClick={() => handleRemoveTodoList(id)}/>
+          </header>
+          <div className="flex mt-4">
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker"
+                   placeholder="Add Todo"
+                   onChange={(e) => handleSetNewTodoInput({
+                     title: e.target.value,
+                     todolist: id
+                   })}
+                   value={getNewTodoInput()}
+                   onKeyUp={(event) => {
+                     if (event.key === 'Enter') handleAddTodo();
+                   }}
+            />
+            <button
+              onClick={() => handleAddTodo()}
+              className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-black hover:bg-teal flex items-center">
+              <IoAdd size="20px" color="gray"/>
+              <span>Add </span>
+            </button>
+          </div>
+        </div>
+
+        <fieldset>
+          {todoItems.map((t: TodoItemType) =>
+            <TodoItem key={t.id}
+                      todoItem={
+                        {
+                          id: t.id,
+                          title: t.title,
+                          completed: t.completed,
+                          todolist: id
+                        }
+                      }
+                      handleRemoveTodo={handleRemoveTodo}
+                      toggleTodoDone={handleToggleDone}
+            />
+          )}
+        </fieldset>
+        <div className='mt-3'>
           <button
-            onClick={() => handleAddTodo()}
-            className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-black hover:bg-teal flex items-center">
-            <IoAdd size="20px" color="gray"/>
-            <span>Add </span>
+            onClick={() => handleClearDone()}
+            className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-black hover:bg-teal flex gap-1 items-center">
+            <IoTrash size="20px" color="gray"/>
+            <span>Clear finished</span>
           </button>
         </div>
-      </div>
-
-      <fieldset>
-        {todoItems.map((t: TodoItemType) =>
-          <TodoItem key={t.id}
-                    todoItem={
-                      {
-                        id: t.id,
-                        title: t.title,
-                        completed: t.completed,
-                        todolist: id
-                      }
-                    }
-                    handleRemoveTodo={handleRemoveTodo}
-                    toggleTodoDone={handleToggleDone}
-          />
-        )}
-      </fieldset>
-      <div className='mt-3'>
-        <button
-          onClick={() => handleClearDone()}
-          className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-black hover:bg-teal flex gap-1 items-center">
-          <IoTrash size="20px" color="gray"/>
-          <span>Clear finished</span>
-        </button>
       </div>
     </div>
   )
@@ -86,7 +88,8 @@ const TodoItem = ({todoItem, toggleTodoDone, handleRemoveTodo}: TodoItemProps) =
           className="w-4 h-4 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
           readOnly
         />
-        <label htmlFor={"todoItem-" + todoItem.id} className="ms-2 text-md font-medium pointer-events-none">{todoItem.title}</label>
+        <label htmlFor={"todoItem-" + todoItem.id}
+               className="ms-2 text-md font-medium pointer-events-none">{todoItem.title}</label>
       </div>
       <IoClose size="20px" color="gray" className='cursor-pointer' onClick={e => {
         handleRemoveTodo(todoItem)

@@ -21,7 +21,7 @@ export default function Home() {
   }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
-      <div className="min-h-100 w-full flex flex-wrap items-start bg-teal-lightest container mx-auto">
+      <div className="grid grid-cols-3 min-h-100 w-full bg-teal-lightest container mx-auto">
         {
           todoLists.map(
             todoList =>
