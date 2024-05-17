@@ -16,7 +16,7 @@ export const TodoList = ({ id, title} : {id: number, title: string}) => {
   } = useTodoItem(id);
 
   return (
-    <div className="bg-white rounded shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg">
+    <div className="bg-white rounded shadow p-6 m-4">
       <div className="mb-4">
         <h1 className="text-grey-darkest">{ title } <span>({completedTodo.length}/{todoItems.length})</span></h1>
         <div className="flex mt-4">

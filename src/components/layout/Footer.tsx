@@ -4,7 +4,7 @@ import logo from '@public/next.svg';
 export default function Footer() {
   return (
     <footer
-      className="text-srk-blue-6 w-full shadow-lg bg-[#FFFFFF]  pb-6 lg:pb-16">
+      className="w-full shadow-lg bg-[#FFFFFF]  pb-6 lg:pb-16">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div
           className="w-10/12 flex flex-col-reverse lg:flex-row mx-auto pt-0 lg:pt-8 items-start lg:items-start">
