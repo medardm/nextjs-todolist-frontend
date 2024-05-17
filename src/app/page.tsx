@@ -10,7 +10,8 @@ export default function Home() {
     todoLists,
     newTodoListInput,
     handleSetNewTodoListInput,
-    handleAddTodoList
+    handleAddTodoList,
+    handleRemoveTodoList
   } = useTodoList()
 
   const todoListNewProps = {
@@ -28,6 +29,7 @@ export default function Home() {
                 key={todoList.id}
                 id={todoList.id}
                 title={todoList.title}
+                handleRemoveTodoList={handleRemoveTodoList}
               />
           )
         }

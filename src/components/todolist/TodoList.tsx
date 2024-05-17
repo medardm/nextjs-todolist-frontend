@@ -3,7 +3,7 @@ import {IoAdd, IoClose, IoTrash} from "react-icons/io5";
 import React from "react";
 import {useTodoItem} from "@/hooks/useTodoItem";
 
-export const TodoList = ({ id, title} : {id: number, title: string}) => {
+export const TodoList = ({ id, title, handleRemoveTodoList } : {id: number, title: string, handleRemoveTodoList: any}) => {
   const {
     getNewTodoInput,
     handleSetNewTodoInput,
@@ -18,7 +18,10 @@ export const TodoList = ({ id, title} : {id: number, title: string}) => {
   return (
     <div className="bg-white rounded shadow p-6 m-4">
       <div className="mb-4">
-        <h1 className="text-grey-darkest">{ title } <span>({completedTodo.length}/{todoItems.length})</span></h1>
+        <header className="text-grey-darkest flex justify-between">
+          <h2>{ title } <span>({completedTodo.length}/{todoItems.length})</span></h2>
+          <IoTrash size="20px" className="cursor-pointer" color="gray" onClick={() => handleRemoveTodoList(id)}/>
+        </header>
         <div className="flex mt-4">
           <input className="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker"
                  placeholder="Add Todo"

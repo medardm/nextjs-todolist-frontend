@@ -95,16 +95,33 @@ const useTodoListStore = create<TodoListState>((set, get) => ({
 
       // if the request is successful, add the to-do list to the state
       set(state => ({todoLists: [...state.todoLists, response.data]}));
-
+      console.info("Todolist added");
     } catch (error: any) {
       console.error("Failed to add todo list", error);
       set(state => ({...state, error: error.message}));
     }
   },
 
-  deleteTodoList: (id: number) => set(state => ({
-    todoLists: state.todoLists.filter(todoList => todoList.id !== id)
-  })),
+  deleteTodoList: async (id: number) => {
+    if (!get().online) {
+      set(state => ({
+        todoLists: state.todoLists.filter(todoList => todoList.id !== id)
+      }))
+      return;
+    }
+
+    try {
+      await fetchData<ApiResponse>(`todolists/${id}`, {
+        method: 'DELETE',
+      });
+
+      set(state => ({ todoLists: state.todoLists.filter((todoList) => todoList.id !== id) }));
+      console.info("Todolist deleted");
+    } catch (error: any) {
+      console.error("Failed to delete todo list", error);
+      set(state => ({ ...state, error: error.message }));
+    }
+  },
 
   updateTodoList: (id: number, title: string) => set(state => ({
     todoLists: state.todoLists.map(todoList =>
