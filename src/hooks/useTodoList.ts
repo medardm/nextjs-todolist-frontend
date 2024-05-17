@@ -8,6 +8,7 @@ export function useTodoList() {
     error,
     todoLists,
     newTodoListInput,
+    setOnline,
     initGuestTodoList,
     fetchTodoLists,
     setNewTodoListInput,
@@ -20,11 +21,13 @@ export function useTodoList() {
 
   useEffect(() => {
     if (user?.user) {
+      setOnline(true)
       fetchTodoLists()
     } else {
+      setOnline(false)
       initGuestTodoList()
     }
-  }, [fetchTodoLists, initGuestTodoList, user?.user]);
+  }, [fetchTodoLists, initGuestTodoList, user?.user, setOnline]);
 
   const handleSetNewTodoListInput = (title: string) => {
     setNewTodoListInput(title);

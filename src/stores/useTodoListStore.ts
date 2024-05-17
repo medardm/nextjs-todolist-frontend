@@ -1,5 +1,5 @@
-import { create } from 'zustand';
-import {TodoList, TodoListApiResponse, TodoListState} from "@/types";
+import {create} from 'zustand';
+import {ApiResponse, TodoList, TodoListApiResponse, TodoListState} from "@/types";
 import {fetchData} from "@/utils/api";
 
 const initialTodoLists: TodoList[] = [
@@ -38,8 +38,11 @@ const useTodoListStore = create<TodoListState>((set, get) => ({
   todoLists: initialTodoLists,
   error: null,
   loading: false,
+  online: false,
 
-  initGuestTodoList: () => set({ todoLists: initialTodoLists }),
+  setOnline: (online: boolean) => set({online}),
+
+  initGuestTodoList: () => set({todoLists: initialTodoLists}),
 
   fetchTodoLists: async () => {
     try {
@@ -61,11 +64,42 @@ const useTodoListStore = create<TodoListState>((set, get) => ({
     }
   },
 
-  setNewTodoListInput: (title: string) => set({ newTodoListInput: title }),
+  setNewTodoListInput: (title: string) => set({newTodoListInput: title}),
 
-  addTodoList: (title: string) => {
-    const newTodoList = {"id": Date.now(), "title": title, "created": new Date().toISOString(), "updated": new Date().toISOString(), "user": 2};
-    set(state => ({ todoLists: [...state.todoLists, newTodoList] }));
+  addTodoList: async (title: string) => {
+    // Create the new to-do list
+    const newTodoList = {
+      "title": title,
+    };
+
+    if (!get().online) {
+      console.log('offline')
+      set(state => ({
+        todoLists: [...state.todoLists, {
+          id: Date.now(),
+          user: 2,
+          created: Date.now().toLocaleString(),
+          updated: Date.now().toLocaleString(),
+          ...newTodoList
+        }]
+      }));
+      return
+    }
+
+    try {
+      // make a POST request to save the todo list on the server
+      const response = await fetchData<ApiResponse & { data: TodoList }>('todolists/', {
+        method: 'POST',
+        body: JSON.stringify(newTodoList),
+      });
+
+      // if the request is successful, add the to-do list to the state
+      set(state => ({todoLists: [...state.todoLists, response.data]}));
+
+    } catch (error: any) {
+      console.error("Failed to add todo list", error);
+      set(state => ({...state, error: error.message}));
+    }
   },
 
   deleteTodoList: (id: number) => set(state => ({

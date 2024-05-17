@@ -42,7 +42,9 @@ export type TodoListState = {
   todoLists: TodoList[];
   error: string | null;
   loading: boolean;
+  online: boolean;
   initGuestTodoList: () => void;
+  setOnline: (online: boolean) => void;
   fetchTodoLists: () => void;
   setNewTodoListInput: (title: string) => void;
   addTodoList: (title: string) => void;
