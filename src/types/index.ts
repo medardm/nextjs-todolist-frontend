@@ -91,7 +91,7 @@ export type TodoItemState = {
   addTodoItem: (newTodo: TodoItemInput) => void;
   deleteTodoItem: (todo: TodoItem) => void;
   clearFinished: () => void;
-  toggleDone: (id: number) => void;
+  toggleDone: (id: number, todolist: number) => void;
 };
 
 export type ApiResponse = {

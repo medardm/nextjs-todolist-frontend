@@ -93,6 +93,7 @@ const TodoItem = ({todoItem, toggleTodoDone, handleRemoveTodo}: TodoItemProps) =
           checked={todoItem.completed}
           id={"todoItem-" + todoItem.id}
           type="checkbox"
+          onChange={() => {}}
           className="w-4 h-4 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
         />
         <label htmlFor={"todoItem-" + todoItem.id}

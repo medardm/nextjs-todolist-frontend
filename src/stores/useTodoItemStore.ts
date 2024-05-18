@@ -34,7 +34,6 @@ const useTodoItemStore = create<TodoItemState>((set, get) => ({
       set(state => ({...state, loading: true}));
 
       const response = await fetchData<TodoItemsApiResponse>(`todolists/${todolist}/todoitems`, {
-        credentials: 'include',
       });
 
       set(state => (
@@ -67,11 +66,7 @@ const useTodoItemStore = create<TodoItemState>((set, get) => ({
 
     fetchData<ApiResponse & { data: TodoItem }>(`todolists/${todoInput.todolist}/todoitems/`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify(newTodo),
-      credentials: 'include',
     }).then(response => {
       console.info('added todo item')
       set(state => ({ todoItems: [...state.todoItems, {...newTodo, id: response.data.id}] }));
@@ -111,11 +106,37 @@ const useTodoItemStore = create<TodoItemState>((set, get) => ({
     todoItems: state.todoItems.filter(todoItem => !todoItem.completed)
   })),
 
-  toggleDone: (id: number) => set(state => ({
-    todoItems: state.todoItems.map(todoItem =>
-      todoItem.id === id ? {...todoItem, completed: !todoItem.completed} : todoItem
-    )
-  })),
+  toggleDone: (id: number, todolist: number) => {
+    const updateTodo = {
+      completed: true,
+    };
+    if (!get().online) {
+      set(state => ({
+        todoItems: state.todoItems.map(todoItem =>
+          todoItem.id === id ? {...todoItem, completed: !todoItem.completed} : todoItem
+        )
+      }))
+      return
+    }
+
+    set({ loading: true, error: null })
+
+    fetchData<ApiResponse & { data: TodoItem }>(`todolists/${todolist}/todoitems/${id}/`, {
+      method: 'PUT',
+      body: JSON.stringify(updateTodo),
+    }).then(response => {
+      console.info('updated todo item')
+      set(state => ({
+        todoItems: state.todoItems.map(todoItem =>
+          todoItem.id === id ? {...todoItem, completed: !todoItem.completed} : todoItem
+        )
+      }))
+      set({ loading: false, error: null })
+    }).catch((e: any) => {
+      set({ loading: false, error: e.message })
+    });
+
+  }
 }));
 
 export default useTodoItemStore;

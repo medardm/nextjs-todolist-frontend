@@ -64,7 +64,7 @@ export function useTodoItem(todolist: number) {
   };
 
   const handleToggleDone = (id: number) => {
-    toggleDone(id);
+    toggleDone(id, todolist);
   };
 
   const handleClearDone = () => {
