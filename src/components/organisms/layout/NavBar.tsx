@@ -3,8 +3,8 @@
 import Image from "next/image";
 import logo from '@public/next.svg';
 import {useReducer} from "react";
-import {LoginModal} from "@/components/auth/LoginModal";
-import {RegisterModal} from "@/components/auth/RegisterModal";
+import {LoginModal} from "@/components/organisms/auth/LoginModal";
+import {RegisterModal} from "@/components/organisms/auth/RegisterModal";
 import {useAuthUser} from "@/hooks/useAuth";
 
 export default function Navbar() {
