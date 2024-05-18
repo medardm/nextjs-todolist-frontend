@@ -83,7 +83,6 @@ const TodoItem = ({todoItem, toggleTodoDone, handleRemoveTodo}: TodoItemProps) =
   const doneStyle = todoItem.completed ? 'text-gray-400 line-through' : 'text-gray-900'
 
   const toggleDone = () => toggleTodoDone(todoItem.id)
-  const removeTodo = () => handleRemoveTodo(todoItem)
 
   return (
     <div className={"flex justify-between items-center border-b-2"}>
@@ -99,7 +98,7 @@ const TodoItem = ({todoItem, toggleTodoDone, handleRemoveTodo}: TodoItemProps) =
         <label htmlFor={"todoItem-" + todoItem.id}
                className="ms-2 text-md font-medium pointer-events-none">{todoItem.title}</label>
       </div>
-      <IoClose size="20px" color="gray" className='cursor-pointer' onClick={removeTodo}/>
+      <IoClose size="20px" color="gray" className='cursor-pointer' onClick={handleRemoveTodo(todoItem)}/>
     </div>
   );
 }

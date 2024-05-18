@@ -58,7 +58,7 @@ export function useTodoItem(todolist: number) {
     setNewTodoItemInput(undefined);
   };
 
-  const handleRemoveTodo = (todoItem: TodoItem) => {
+  const handleRemoveTodo = (todoItem: TodoItem) => () => {
     deleteTodoItem(todoItem);
     setNewTodoItemInput(undefined);
   };

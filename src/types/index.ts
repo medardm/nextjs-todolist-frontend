@@ -66,7 +66,7 @@ export type TodoItem = TodoItemInput & {
 };
 
 type ToggleTodo = (id: number) => void;
-type RemoveTodo = (todoItem: TodoItem) => void;
+type RemoveTodo = (todoItem: TodoItem) => () => void;
 
 export type TodoItemProps = {
   todoItem: TodoItem;
