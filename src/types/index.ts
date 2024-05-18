@@ -15,16 +15,10 @@ export interface AuthUser {
 
 export type AuthState = {
   loading: boolean;
-  usernameInput: string,
-  passwordInput: string,
-  confirmPasswordInput: string,
   user: AuthUser | null;
   error: string | null;
   // Methods
   loginStart: () => void;
-  setUsername: (username: string) => void;
-  setPassword: (password: string) => void;
-  setConfirmPassword: (confirmPassword: string) => void;
   loginSuccess: (user: AuthUser | null) => void;
   loginFailure: (error: string) => void;
 };

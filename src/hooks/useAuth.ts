@@ -9,22 +9,19 @@ export const useAuth = () => {
     loginStart,
     loginSuccess,
     loginFailure,
-    usernameInput,
-    passwordInput,
-    setUsername,
-    setPassword,
     user
   } = useAuthStore();
 
-  const login = async () => {
+  const login = async (username: string, password: string, remember_me: boolean) => {
     loginStart();
 
     try {
       const userData = await fetchData<AuthUser>('login', {
         method: 'POST',
         body: JSON.stringify({
-          username: usernameInput,
-          password: passwordInput
+          username,
+          password,
+          remember_me
         }),
         credentials: 'include'
       });
@@ -52,10 +49,6 @@ export const useAuth = () => {
 
   return {
     user,
-    username: usernameInput,
-    password: passwordInput,
-    setUsername,
-    setPassword,
     login,
     logout
   };

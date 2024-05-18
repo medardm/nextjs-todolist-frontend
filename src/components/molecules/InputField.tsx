@@ -7,7 +7,7 @@ type Props = {
   required?: boolean;
   type?: string;
   state: string;
-  setState: React.Dispatch<React.SetStateAction<string>> | ((state: any) => void);
+  setState: any;
 };
 
 export const InputField = ({ id, label, placeholder, required = false, type = "text", state, setState }: Props) => {
