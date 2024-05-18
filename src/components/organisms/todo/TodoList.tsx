@@ -1,9 +1,13 @@
-import {TodoItem as TodoItemType, TodoItemProps} from "@/types";
-import {IoAdd, IoClose, IoTrash} from "react-icons/io5";
+import {TodoItem as TodoItemType, TodoItemProps, TodoList as TodoListType} from "@/types";
+import {IoAdd, IoClose, IoEye, IoEyeOff, IoTrash} from "react-icons/io5";
 import React from "react";
 import {useTodoItem} from "@/hooks/useTodoItem";
 
-export const TodoList = ({ id, title, handleRemoveTodoList } : {id: number, title: string, handleRemoveTodoList: any}) => {
+export const TodoList = ({todoList, handleRemoveTodoList, toggleShowCompleted}: {
+  todoList: TodoListType,
+  handleRemoveTodoList: any,
+  toggleShowCompleted: any
+}) => {
   const {
     getNewTodoInput,
     handleSetNewTodoInput,
@@ -12,26 +16,25 @@ export const TodoList = ({ id, title, handleRemoveTodoList } : {id: number, titl
     handleAddTodo,
     handleRemoveTodo,
     handleToggleDone,
-    handleClearDone
-  } = useTodoItem(id);
+  } = useTodoItem(todoList.id);
 
   const setNewTodoInput = (e: { target: { value: any; }; }) => handleSetNewTodoInput({
     title: e.target.value,
-    todolist: id
+    todolist: todoList.id
   })
 
   const addOnEnter = (event: { key: string; }) => {
     if (event.key === 'Enter') handleAddTodo();
   }
 
-  const removeTodoList = () => handleRemoveTodoList(id)
+  const removeTodoList = () => handleRemoveTodoList(todoList.id)
 
   return (
     <div>
-      <div className="bg-white rounded shadow p-6 m-4">
+      <div className="bg-white rounded shadow p-6">
         <div className="mb-4">
           <header className="text-grey-darkest flex justify-between">
-            <h2>{title} <span>({completedTodo.length}/{todoItems.length})</span></h2>
+            <h2>{todoList.title} <span>({completedTodo.length}/{todoItems.length})</span></h2>
             <IoTrash size="20px" className="cursor-pointer" color="gray" onClick={removeTodoList}/>
           </header>
           <div className="flex mt-4">
@@ -51,29 +54,37 @@ export const TodoList = ({ id, title, handleRemoveTodoList } : {id: number, titl
         </div>
 
         <fieldset>
-          {todoItems.map((t: TodoItemType) =>
-            <TodoItem key={t.id}
-                      todoItem={
-                        {
-                          id: t.id,
-                          title: t.title,
-                          completed: t.completed,
-                          todolist: id
+          {todoItems.filter(i => {
+            if (!todoList.showCompleted) return !i.completed;
+            return i
+          })
+            .map((t: TodoItemType) =>
+              <TodoItem key={t.id}
+                        todoItem={
+                          {
+                            id: t.id,
+                            title: t.title,
+                            completed: t.completed,
+                            todolist: todoList.id
+                          }
                         }
-                      }
-                      handleRemoveTodo={handleRemoveTodo}
-                      toggleTodoDone={handleToggleDone}
-            />
-          )}
+                        handleRemoveTodo={handleRemoveTodo}
+                        toggleTodoDone={handleToggleDone}
+              />
+            )}
         </fieldset>
-        <div className='mt-3'>
+        { completedTodo.length > 0 &&
+          <div className='mt-3'>
           <button
-            onClick={handleClearDone}
+            onClick={e => toggleShowCompleted(todoList.id)}
             className="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-black hover:bg-teal flex gap-1 items-center">
-            <IoTrash size="20px" color="gray"/>
-            <span>Clear finished</span>
+            {todoList.showCompleted && <><IoEyeOff size="20px" color="gray"/>
+                <span>Hide {completedTodo.length} completed</span></>}
+            {!todoList.showCompleted && <><IoEye size="20px" color="gray"/>
+                <span>Show {completedTodo.length} completed</span></>}
           </button>
         </div>
+        }
       </div>
     </div>
   )
@@ -92,7 +103,8 @@ const TodoItem = ({todoItem, toggleTodoDone, handleRemoveTodo}: TodoItemProps) =
           checked={todoItem.completed}
           id={"todoItem-" + todoItem.id}
           type="checkbox"
-          onChange={() => {}}
+          onChange={() => {
+          }}
           className="w-4 h-4 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
         />
         <label htmlFor={"todoItem-" + todoItem.id}

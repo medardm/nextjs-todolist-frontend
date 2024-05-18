@@ -5,9 +5,14 @@ import {fetchData} from "@/utils/api";
 
 const initialTodoItems: TodoItem[] = [
   {id: Date.now() + 1, title: 'Research about XX', completed: false, todolist: 1},
-  {id: Date.now() + 2, title: 'Improve React/Nextjs skills', completed: false, todolist: 1},
-  {id: Date.now() + 3, title: 'Build Python and Django skills', completed: false, todolist: 1},
-  {id: Date.now() + 4, title: 'Get Hired', completed: false, todolist: 1},
+  {id: Date.now() + 2, title: 'Buy eggs', completed: false, todolist: 1},
+  {id: Date.now() + 3, title: 'Take kittens to vet for checkup', completed: false, todolist: 1},
+  {id: Date.now() + 4, title: 'React', completed: false, todolist: 2},
+  {id: Date.now() + 5, title: 'Microservices', completed: false, todolist: 2},
+  {id: Date.now() + 6, title: 'Mongodb', completed: false, todolist: 2},
+  {id: Date.now() + 7, title: 'MERN & MEAN stack', completed: false, todolist: 2},
+  {id: Date.now() + 8, title: 'Tabulation System', completed: false, todolist: 3},
+  {id: Date.now() + 9, title: 'Docs AI', completed: false, todolist: 3},
 ]
 
 const useTodoItemStore = create<TodoItemState>((set, get) => ({

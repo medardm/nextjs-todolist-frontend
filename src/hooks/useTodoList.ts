@@ -14,7 +14,8 @@ export function useTodoList() {
     setNewTodoListInput,
     addTodoList,
     deleteTodoList,
-    updateTodoList
+    updateTodoList,
+    toggleShowCompleted
   } = useTodoListStore();
 
   const { user } = useAuth()
@@ -58,6 +59,7 @@ export function useTodoList() {
     handleSetNewTodoListInput,
     handleAddTodoList,
     handleRemoveTodoList,
-    handleUpdateTodoList
+    handleUpdateTodoList,
+    toggleShowCompleted
   };
 }

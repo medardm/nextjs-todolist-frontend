@@ -67,7 +67,6 @@ export const useAuthUser = () => {
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem('userData');
-    console.log(loggedInUser);
     if (loggedInUser) {
       const authUser = JSON.parse(loggedInUser);
       validateToken()

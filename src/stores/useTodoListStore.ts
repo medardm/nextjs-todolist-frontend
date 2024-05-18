@@ -8,28 +8,24 @@ const initialTodoLists: TodoList[] = [
     "title": "To Do",
     "created": "2024-05-07T20:42:19.175888Z",
     "updated": "2024-05-07T21:03:02.429030Z",
-    "user": 2
+    "user": 2,
+    "showCompleted": true
   },
   {
     "id": 2,
-    "title": "To Learn",
+    "title": "To Learn/Improve",
     "created": "2024-05-07T20:49:20.551751Z",
     "updated": "2024-05-07T21:02:48.530152Z",
-    "user": 2
+    "user": 2,
+    "showCompleted": true
   },
   {
     "id": 3,
-    "title": "To Learasdn",
+    "title": "Personal Projects",
     "created": "2024-05-07T20:49:20.551751Z",
     "updated": "2024-05-07T21:02:48.530152Z",
-    "user": 2
-  },
-  {
-    "id": 4,
-    "title": "To Learasdn",
-    "created": "2024-05-07T20:49:20.551751Z",
-    "updated": "2024-05-07T21:02:48.530152Z",
-    "user": 2
+    "user": 2,
+    "showCompleted": true
   },
 ]
 
@@ -39,6 +35,18 @@ const useTodoListStore = create<TodoListState>((set, get) => ({
   error: null,
   loading: false,
   online: false,
+
+  toggleShowCompleted: (todolist: number) =>     set(state => ({
+    todoLists: state.todoLists.map((todoL) => {
+      if (todolist === todoL.id) {
+        return {
+          ...todoL,
+          showCompleted: !todoL.showCompleted
+        }
+      }
+      return todoL
+    })
+  })),
 
   setOnline: (online: boolean) => set({online}),
 

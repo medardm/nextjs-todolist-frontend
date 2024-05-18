@@ -13,7 +13,8 @@ export default function Home() {
     newTodoListInput,
     handleSetNewTodoListInput,
     handleAddTodoList,
-    handleRemoveTodoList
+    handleRemoveTodoList,
+    toggleShowCompleted,
   } = useTodoList()
 
   const {todoItems} = useTodoItemStore()
@@ -24,27 +25,29 @@ export default function Home() {
     handleAddTodoList
   }
   return (
-    <main className="flex min-h-screen flex-col items-center py-3">
-      <header className="">
+    <main className="flex min-h-screen flex-col py-3 container mx-auto">
+      <header className="mb-2">
         <h1 className="text-2xl">
-          Hi {user?.user.username ?? 'Guest'}, You have {todoLists.length} todo lists{todoLists.length>1? 's': ''}
-          and {todoItems.length} todo items
+          Hi {user?.user.username ?? 'Guest'}
         </h1>
+        <p>
+          Todo lists: {todoLists.length} |
+          Todo items: {todoItems.length}
+        </p>
       </header>
-      <div className="grid grid-cols-3 min-h-100 w-full bg-teal-lightest container mx-auto">
+      <div className="grid grid-cols-3 gap-5 min-h-100 w-full bg-teal-lightest">
         {
           todoLists.map(
             todoList =>
               <TodoList
                 key={todoList.id}
-                id={todoList.id}
-                title={todoList.title}
+                todoList={todoList}
                 handleRemoveTodoList={handleRemoveTodoList}
-              />
+                toggleShowCompleted={toggleShowCompleted}/>
           )
         }
         <TodoListNew
-          {... todoListNewProps}
+          {...todoListNewProps}
         />
       </div>
     </main>

@@ -29,6 +29,7 @@ export type TodoList = {
   created: string;
   updated: string;
   user?: number;
+  showCompleted?: boolean;
 };
 
 export type TodoListState = {
@@ -37,6 +38,7 @@ export type TodoListState = {
   error: string | null;
   loading: boolean;
   online: boolean;
+  toggleShowCompleted: (todolist: number) => void;
   initGuestTodoList: () => void;
   setOnline: (online: boolean) => void;
   fetchTodoLists: () => void;
