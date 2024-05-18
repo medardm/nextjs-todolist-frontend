@@ -3,9 +3,10 @@
 import Image from "next/image";
 import logo from '@public/next.svg';
 import {useReducer} from "react";
-import {LoginModal} from "@/components/organisms/auth/LoginModal";
-import {RegisterModal} from "@/components/organisms/auth/RegisterModal";
+import {LoginForm} from "@/components/organisms/auth/LoginForm";
+import {RegisterForm} from "@/components/organisms/auth/RegisterForm";
 import {useAuthUser} from "@/hooks/useAuth";
+import {Modal} from "@/components/molecules/Modal";
 
 export default function Navbar() {
   const [navOpen, toggleNav] = useReducer(navOpen => !navOpen, false);
@@ -60,8 +61,12 @@ export default function Navbar() {
             <div className="relative ml-3">
               <div className={`flex items-center justify-center text-white`}>
                 {!user && <>
-                    <LoginModal/>
-                    <RegisterModal/>
+                    <Modal id='loginModal' buttonTxt='Login'>
+                      <LoginForm/>
+                    </Modal>
+                    <Modal id='registerModal' buttonTxt='Register'>
+                      <RegisterForm/>
+                    </Modal>
                 </>}
 
                 {user && <button onClick={toggleNav} type="button"
