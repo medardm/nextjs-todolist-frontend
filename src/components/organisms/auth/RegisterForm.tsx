@@ -1,11 +1,29 @@
 import {useState} from "react";
 import {InputField} from "@/components/molecules/InputField";
+import {fetchData} from "@/utils/api";
+import {ApiResponse, TodoItem} from "@/types";
 
 export const RegisterForm = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
+
+  const register = () => {
+    fetchData<ApiResponse & { data: TodoItem }>(`register`, {
+      method: 'POST',
+      body: JSON.stringify({
+        username,
+        email,
+        password1,
+        password2
+      }),
+    }).then(response => {
+      console.info('Registered successfully')
+    }).catch((e: any) => {
+      console.error('Something went wrong')
+    });
+  }
 
   return (
     <>
@@ -26,7 +44,8 @@ export const RegisterForm = () => {
         </div>
 
         <div className={`flex justify-end`}>
-          <button type="submit"
+          <button type="button"
+                  onClick={register}
                   className="text-white inline-flex items-center bg-gray-900 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-10 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-gray-900">
             Register
           </button>

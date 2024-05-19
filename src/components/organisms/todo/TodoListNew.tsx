@@ -1,7 +1,5 @@
-import {TodoItem as TodoItemType, TodoItemProps} from "@/types";
-import {IoAdd, IoClose, IoTrash} from "react-icons/io5";
+import {IoAdd} from "react-icons/io5";
 import React from "react";
-import {useTodoList} from "@/hooks/useTodoList";
 
 type TodoListNewProps = {
   newTodoListInput: string;
@@ -10,9 +8,8 @@ type TodoListNewProps = {
 }
 
 export const TodoListNew = ({handleSetNewTodoListInput, handleAddTodoList, newTodoListInput}: TodoListNewProps) => {
-  useTodoList();
   return (
-    <div className="bg-white rounded shadow p-6 m-4">
+    <div className="bg-white rounded shadow p-6">
       <div className="mb-4">
         <h1 className="text-grey-darkest">Create New TodoList</h1>
         <div className="flex flex-col gap-y-2 mt-4">
