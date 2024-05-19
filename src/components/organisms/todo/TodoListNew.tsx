@@ -9,8 +9,8 @@ type TodoListNewProps = {
 
 export const TodoListNew = ({handleSetNewTodoListInput, handleAddTodoList, newTodoListInput}: TodoListNewProps) => {
   return (
-    <div className="bg-white rounded shadow p-6">
-      <div className="mb-4">
+    <div className="">
+      <div className="mb-4 bg-white rounded shadow p-6">
         <h1 className="text-grey-darkest">Create New TodoList</h1>
         <div className="flex flex-col gap-y-2 mt-4">
           <input className="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker"
