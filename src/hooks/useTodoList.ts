@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import useTodoListStore from "@/stores/useTodoListStore";
+import useTodoListStore from "@/state-management/zustand/features/todo/useTodoListStore";
 import {useAuth} from "@/hooks/useAuth";
 
 export function useTodoList() {

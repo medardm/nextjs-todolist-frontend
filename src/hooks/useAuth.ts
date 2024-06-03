@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import { fetchData } from "@/utils/api";
-import useAuthStore from "@/stores/useAuthStore";
+import useAuthStore from "@/state-management/zustand/useAuthStore";
 import {AuthUser} from "@/types";
 import {config} from "@/config";
 

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import useTodoItemStore from "@/stores/useTodoItemStore";
+import useTodoItemStore from "@/state-management/zustand/features/todo/useTodoItemStore";
 import {TodoItem, TodoItemInput} from "@/types";
 import {useAuth} from "@/hooks/useAuth";
 
