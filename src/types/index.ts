@@ -64,11 +64,19 @@ export type TodoItem = TodoItemInput & {
 type ToggleTodo = (id: number) => void;
 type RemoveTodo = (todoItem: TodoItem) => () => void;
 
+export type TodoItemListProps = {
+  todoList: TodoList;
+  todoItems: TodoItem[];
+  handleToggleDone: ToggleTodo;
+  handleRemoveTodo: RemoveTodo;
+}
+
 export type TodoItemProps = {
   todoItem: TodoItem;
   toggleTodoDone: ToggleTodo;
   handleRemoveTodo: RemoveTodo;
 }
+
 
 export type TodoItemState = {
   newTodoItemInput: TodoItemInput | undefined;
