@@ -1,5 +1,5 @@
 import {InputField} from "@/components/molecules/InputField";
-import {useAuth} from "@/hooks/useAuth";
+import {useAuth} from "@/state-management/zustand/features/auth/hooks/useAuth";
 import {CheckboxField} from "@/components/molecules/CheckboxField";
 import {useInput} from "@/hooks/useInput";
 import {config} from "@/config";

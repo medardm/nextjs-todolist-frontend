@@ -3,9 +3,9 @@
 import Image from "next/image";
 import logo from '@public/next.svg';
 import {useReducer} from "react";
-import {LoginForm} from "@/components/organisms/auth/LoginForm";
-import {RegisterForm} from "@/components/organisms/auth/RegisterForm";
-import {useAuthUser} from "@/hooks/useAuth";
+import {LoginForm} from "@/state-management/zustand/features/auth/components/LoginForm";
+import {RegisterForm} from "@/state-management/zustand/features/auth/components/RegisterForm";
+import {useAuthUser} from "@/state-management/zustand/features/auth/hooks/useAuth";
 import {Modal} from "@/components/molecules/Modal";
 
 export default function Navbar() {

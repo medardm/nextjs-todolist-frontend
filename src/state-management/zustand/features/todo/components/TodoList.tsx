@@ -1,7 +1,7 @@
 import {TodoList as TodoListType} from "@/types";
 import {IoAdd, IoEye, IoEyeOff, IoTrash} from "react-icons/io5";
 import React from "react";
-import {useTodoItem} from "@/hooks/useTodoItem";
+import {useTodoItem} from "@/state-management/zustand/features/todo/hooks/useTodoItem";
 import {TodoItemList} from "@/state-management/zustand/features/todo/components/TodoItemList";
 
 export const TodoList = ({todoList, handleRemoveTodoList, toggleShowCompleted}: {

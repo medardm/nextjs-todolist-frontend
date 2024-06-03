@@ -1,9 +1,9 @@
 'use client'
 import React from "react";
 import {TodoList} from "@/state-management/zustand/features/todo/components/TodoList";
-import {useTodoList} from "@/hooks/useTodoList";
+import {useTodoList} from "@/state-management/zustand/features/todo/hooks/useTodoList";
 import {TodoListNew} from "@/state-management/zustand/features/todo/components/TodoListNew";
-import useAuthStore from "@/state-management/zustand/useAuthStore";
+import useAuthStore from "@/state-management/zustand/features/auth/useAuthStore";
 import useTodoItemStore from "@/state-management/zustand/features/todo/useTodoItemStore";
 
 export default function Home() {
